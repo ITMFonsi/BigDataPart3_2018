@@ -15,13 +15,13 @@ public class WeatherDriver extends Configured implements Tool {
         JobConf config = new JobConf(getConf(), WeatherDriver.class);
         config.setOutputKeyClass(Text.class);
         config.setOutputValueClass(DoubleWritable.class);
-        config.setMapperClass(WeatherMapper.class);
-        config.setReducerClass(WeatherReducer.class);
 
         FileInputFormat.addInputPath(config, new Path(strings[0]));
         FileOutputFormat.setOutputPath(config, new Path(strings[1]));
 
         Job job = Job.getInstance(config, "Max Temp");
+        job.setMapperClass(WeatherMapper.class);
+        job.setReducerClass(WeatherReducer.class);
 
         return job.waitForCompletion(true) ? 0 : 1;
 

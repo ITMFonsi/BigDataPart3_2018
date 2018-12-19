@@ -1,27 +1,23 @@
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reducer;
-import org.apache.hadoop.mapred.Reporter;
+import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 import java.util.Iterator;
 
-public class WeatherReducer extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable> {
+public class WeatherReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 
-    public void reduce(Text text, Iterator<IntWritable> iterator, OutputCollector<Text, IntWritable> outputCollector, Reporter reporter) throws IOException {
-        int maxTemperature= 0;
-
+    public void reduce(Text text, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
+        double maxTemperature = 0.0;
+        Iterator iterator = values.iterator();
         while(iterator.hasNext()) {
-            int curr = iterator.next().get();
+            double curr = ((DoubleWritable)iterator.next()).get();
             if(maxTemperature < curr) {
                 maxTemperature = curr;
             }
         }
         //the temperature in the data-set is represented in celsius times 10
         maxTemperature = maxTemperature /10;
-        outputCollector.collect(text, new IntWritable(maxTemperature));
+        context.write(text, new DoubleWritable(maxTemperature));
     }
 }

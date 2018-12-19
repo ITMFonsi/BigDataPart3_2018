@@ -11,8 +11,12 @@ import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -64,16 +68,45 @@ public class WeatherMapReduceTest {
     }
 
     @Test
-    public void testMapReduce() throws IOException {
-        mapReduceDriver.withInput(new LongWritable(), new Text("0029029070999991902010720004+64333+023450FM-12+000599999V0202501N027819999999N0000001N9-00111+99999098351ADDGF102991999999999999999999"));
+    public void testReducerMix() throws IOException {
         List<DoubleWritable> values = new ArrayList<DoubleWritable>();
-        values.add(new DoubleWritable(-111.0));
-        values.add(new DoubleWritable(240.0));
-        mapReduceDriver.withOutput(new Text("1902"), new DoubleWritable(-11.0));
+        values.add(new DoubleWritable(-40.0));
+        values.add(new DoubleWritable(323.0));
+        values.add(new DoubleWritable(-10.0));
+        values.add(new DoubleWritable(170.0));
+        values.add(new DoubleWritable(-240.0));
+        values.add(new DoubleWritable(20.0));
+        values.add(new DoubleWritable(-55.0));
+        values.add(new DoubleWritable(-369.0));
+        reduceDriver.withInput(new Text("1902"), values);
+        reduceDriver.withOutput(new Text("1902"), new DoubleWritable(32.3));
+        reduceDriver.runTest();
+    }
+
+    @Test
+    public void testMapReduce() throws IOException {
+        List<String> lines = getInputFromFile();
+
+        for(String line : lines) {
+            mapReduceDriver.withInput(new LongWritable(), new Text(line));
+        }
+        mapReduceDriver.withOutput(new Text("1902"), new DoubleWritable(24.4));
         mapReduceDriver.runTest();
     }
 
+    private List<String> getInputFromFile() {
+        List<String> lines = new LinkedList<>();
 
+        try (BufferedReader br = new BufferedReader(new FileReader("src\\test\\resources\\1902.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
 }
 
 

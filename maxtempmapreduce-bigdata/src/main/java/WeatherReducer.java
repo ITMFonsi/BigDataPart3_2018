@@ -8,7 +8,7 @@ import java.util.Iterator;
 public class WeatherReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 
     public void reduce(Text text, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
-        double maxTemperature = 0.0;
+        double maxTemperature = -999.9;
         Iterator iterator = values.iterator();
         while(iterator.hasNext()) {
             double curr = ((DoubleWritable)iterator.next()).get();

@@ -84,8 +84,8 @@ public class WeatherMapReduceTest {
     }
 
     @Test
-    public void testMapReduce() throws IOException {
-        List<String> lines = getInputFromFile();
+    public void testMapReduce1902() throws IOException {
+        List<String> lines = getInputFromFile("src\\test\\resources\\1902.txt");
 
         for(String line : lines) {
             mapReduceDriver.withInput(new LongWritable(), new Text(line));
@@ -94,10 +94,32 @@ public class WeatherMapReduceTest {
         mapReduceDriver.runTest();
     }
 
-    private List<String> getInputFromFile() {
+    @Test
+    public void testMapReduce1901() throws IOException {
+        List<String> lines = getInputFromFile("src\\test\\resources\\1901");
+
+        for(String line : lines) {
+            mapReduceDriver.withInput(new LongWritable(), new Text(line));
+        }
+        mapReduceDriver.withOutput(new Text("1901"), new DoubleWritable(31.7));
+        mapReduceDriver.runTest();
+    }
+
+    @Test
+    public void testMapReduce1903() throws IOException {
+        List<String> lines = getInputFromFile("src\\test\\resources\\1903.all");
+
+        for(String line : lines) {
+            mapReduceDriver.withInput(new LongWritable(), new Text(line));
+        }
+        mapReduceDriver.withOutput(new Text("1903"), new DoubleWritable(28.9));
+        mapReduceDriver.runTest();
+    }
+
+    private List<String> getInputFromFile(String path) {
         List<String> lines = new LinkedList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src\\test\\resources\\1902.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
                 lines.add(line);

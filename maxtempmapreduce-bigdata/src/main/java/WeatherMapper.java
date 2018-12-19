@@ -25,6 +25,7 @@ public class WeatherMapper extends MapReduceBase implements Mapper<LongWritable,
         String qual = dataLine.substring(92,93);
         if(temp != EXCLUDED_TEMP && qual.matches(QUALITY_CODE)) {
             outputCollector.collect(new Text(dataYear), new DoubleWritable(temp));
+
         }
     }
 }

@@ -1,6 +1,6 @@
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.FileOutputFormat;
@@ -14,7 +14,7 @@ public class WeatherDriver extends Configured implements Tool {
     public int run(String[] strings) throws Exception {
         JobConf config = new JobConf(getConf(), WeatherDriver.class);
         config.setOutputKeyClass(Text.class);
-        config.setOutputValueClass(IntWritable.class);
+        config.setOutputValueClass(DoubleWritable.class);
         config.setMapperClass(WeatherMapper.class);
         config.setReducerClass(WeatherReducer.class);
 

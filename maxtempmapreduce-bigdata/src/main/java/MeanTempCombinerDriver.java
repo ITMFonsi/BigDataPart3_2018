@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class MeanTempDriver extends Configured implements Tool {
+public class MeanTempCombinerDriver extends Configured implements Tool {
     public int run(String[] strings) throws Exception {
         JobConf config = new JobConf(getConf(), MeanTempDriver.class);
         config.setOutputKeyClass(Text.class);
@@ -18,8 +18,9 @@ public class MeanTempDriver extends Configured implements Tool {
         FileInputFormat.addInputPath(config, new Path(strings[0]));
         FileOutputFormat.setOutputPath(config, new Path(strings[1]));
 
-        Job job = Job.getInstance(config, "Mean Temp");
+        Job job = Job.getInstance(config, "Mean Temp with Combiner");
         job.setMapperClass(MeanTempMapper.class);
+        job.setCombinerClass(MeanTempReducer.class);
         job.setReducerClass(MeanTempReducer.class);
 
         return job.waitForCompletion(true) ? 0 : 1;

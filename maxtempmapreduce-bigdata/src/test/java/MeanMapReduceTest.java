@@ -19,7 +19,7 @@ public class MeanMapReduceTest {
 
     @Before
     public void setUp() {
-        Mapper mapper = new WeatherMapper();
+        Mapper mapper = new MeanTempMapper();
         Reducer reducer = new MeanTempReducer();
         mapDriver = MapDriver.newMapDriver(mapper);
         reduceDriver = ReduceDriver.newReduceDriver(reducer);

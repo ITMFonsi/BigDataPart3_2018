@@ -8,7 +8,6 @@ import java.util.Iterator;
 public class MeanTempReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 
     public void reduce(Text text, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
-
         Iterator iterator = values.iterator();
         double sum = 0.0;
         int count = 0;

@@ -9,25 +9,24 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class WeatherDriver extends Configured implements Tool {
-
+public class MeanTempDriver extends Configured implements Tool {
     public int run(String[] strings) throws Exception {
-        JobConf config = new JobConf(getConf(), WeatherDriver.class);
+        JobConf config = new JobConf(getConf(), MeanTempDriver.class);
         config.setOutputKeyClass(Text.class);
         config.setOutputValueClass(DoubleWritable.class);
 
         FileInputFormat.addInputPath(config, new Path(strings[0]));
         FileOutputFormat.setOutputPath(config, new Path(strings[1]));
 
-        Job job = Job.getInstance(config, "Max Temp");
+        Job job = Job.getInstance(config, "Mean Temp");
         job.setMapperClass(WeatherMapper.class);
-        job.setReducerClass(WeatherReducer.class);
-        return job.waitForCompletion(true) ? 0 : 1;
+        job.setReducerClass(MeanTempReducer.class);
 
+        return job.waitForCompletion(true) ? 0 : 1;
     }
 
     public static void main(String[] args) throws Exception {
-        int exitCode = ToolRunner.run(new WeatherDriver(), args);
+        int exitCode = ToolRunner.run(new MeanTempDriver(), args);
         System.exit(exitCode);
     }
 }

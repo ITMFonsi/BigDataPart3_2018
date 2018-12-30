@@ -7,18 +7,15 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
-import org.apache.hadoop.mrunit.types.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class WeatherMapReduceTest {
@@ -116,9 +113,8 @@ public class WeatherMapReduceTest {
         mapReduceDriver.runTest();
     }
 
-    private List<String> getInputFromFile(String path) {
+    protected static List<String> getInputFromFile(String path) {
         List<String> lines = new LinkedList<>();
-
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {

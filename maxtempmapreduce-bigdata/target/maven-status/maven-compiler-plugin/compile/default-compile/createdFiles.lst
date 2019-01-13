@@ -1,3 +1,6 @@
+MeanTempCombinerDriver.class
+MeanTempDriver.class
+MeanTempReducer.class
 WeatherReducer.class
 WeatherDriver.class
 WeatherMapper.class

@@ -1,3 +1,5 @@
+import UE2.MeanTempMapper;
+import UE2.MeanTempReducer;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;

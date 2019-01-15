@@ -21,17 +21,15 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
         if (compareValue == 0) {
                 compareValue = temperature.compareTo(pair.getTemperature());
            }
-        //return compareValue;    // sort ascending
-        return -1*compareValue;   // sort descending
+        return compareValue;    // sort ascending
    }
 
-    private DoubleWritable getTemperature() {
+    public DoubleWritable getTemperature() {
         return temperature;
     }
 
-    private BinaryComparable getYearMonth() {
+    public BinaryComparable getYearMonth() {
         return yearMonth;
-
     }
 
     @Override

@@ -6,7 +6,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MedianTempReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 
@@ -17,9 +16,7 @@ public class MedianTempReducer extends Reducer<Text, DoubleWritable, Text, Doubl
         for (DoubleWritable value : values) {
             temperatureList.add(value.get());
         }
-        Collections.sort(temperatureList);
         int size  = temperatureList.size();
-
         if(size%2 == 0){
             int half = size/2;
             median  = temperatureList.get(half);
@@ -28,6 +25,5 @@ public class MedianTempReducer extends Reducer<Text, DoubleWritable, Text, Doubl
             median = temperatureList.get(half -1);
         }
         context.write(text, new DoubleWritable(median));
-
     }
 }

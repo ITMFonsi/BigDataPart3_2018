@@ -7,11 +7,12 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MedianTempReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+public class MedianTempReducer extends Reducer<TemperaturePair, DoubleWritable, Text, DoubleWritable> {
 
     ArrayList<Double> temperatureList = new ArrayList<Double>();
 
-    public void reduce(Text text, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
+    @Override
+    protected void reduce(TemperaturePair key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
         double median = 0;
         for (DoubleWritable value : values) {
             temperatureList.add(value.get());
@@ -24,6 +25,7 @@ public class MedianTempReducer extends Reducer<Text, DoubleWritable, Text, Doubl
             int half = (size + 1)/2;
             median = temperatureList.get(half -1);
         }
-        context.write(text, new DoubleWritable(median));
+
+        context.write(key.getYearMonth(), new DoubleWritable(median));
     }
 }

@@ -1,5 +1,3 @@
-import UE1.WeatherMapper;
-import UE1.WeatherReducer;
 import UE3.MedianTempReducer;
 import UE3.SecSortTempMapper;
 import org.apache.hadoop.io.DoubleWritable;
@@ -41,7 +39,7 @@ public class MedianMapReduceTest {
         for(String line : lines) {
             mapReduceDriver.withInput(new LongWritable(), new Text(line));
         }
-        mapReduceDriver.withOutput(new Text("1901"), new DoubleWritable(4.6698507007922));
+        mapReduceDriver.withOutput(new Text("1901"), new DoubleWritable(-11.0));
         mapReduceDriver.runTest();
     }
 
@@ -51,7 +49,7 @@ public class MedianMapReduceTest {
         for(String line : lines) {
             mapReduceDriver.withInput(new LongWritable(), new Text(line));
         }
-        mapReduceDriver.withOutput(new Text("1902"), new DoubleWritable(2.165955826351866));
+        mapReduceDriver.withOutput(new Text("1902"), new DoubleWritable(-6.0));
         mapReduceDriver.runTest();
     }
 
@@ -62,7 +60,7 @@ public class MedianMapReduceTest {
         for(String line : lines) {
             mapReduceDriver.withInput(new LongWritable(), new Text(line));
         }
-        mapReduceDriver.withOutput(new Text("1903"), new DoubleWritable(28.9));
+        mapReduceDriver.withOutput(new Text("1903"), new DoubleWritable(-44.0));
         mapReduceDriver.runTest();
     }
 

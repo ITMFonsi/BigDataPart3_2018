@@ -22,8 +22,8 @@ public class MedianTempReducer extends Reducer<TemperaturePair, DoubleWritable, 
             int half = size/2;
             median  = temperatureList.get(half);
         } else {
-            int half = (size + 1)/2;
-            median = temperatureList.get(half -1);
+            int half = (size + 1) / 2;
+            median = temperatureList.get(half - 1);
         }
 
         context.write(key.getYearMonth(), new DoubleWritable(median));

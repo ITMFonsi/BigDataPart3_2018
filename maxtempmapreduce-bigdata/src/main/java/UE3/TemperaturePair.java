@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TemperaturePair implements Writable, WritableComparable<TemperaturePair> {
 
-    private Text yearMonth = new Text();
+    private Text year = new Text();
     private DoubleWritable temperature = new DoubleWritable();
 
 
@@ -16,7 +16,7 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
     }
 
     public TemperaturePair(String ym, int temp) {
-        yearMonth.set(ym);
+        year.set(ym);
         temperature.set(temp);
     }
 
@@ -28,27 +28,25 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
 
     @Override
     public void write(DataOutput out) throws IOException {
-        yearMonth.write(out);
+        year.write(out);
         temperature.write(out);
     }
 
     @Override
     public void readFields(DataInput in) throws IOException {
-        yearMonth.readFields(in);
+        year.readFields(in);
         temperature.readFields(in);
     }
 
     @Override
     public int compareTo(TemperaturePair temperaturePair) {
-        int compareValue = this.yearMonth.compareTo(temperaturePair.getYearMonth());
-        if (compareValue == 0) {
-            compareValue = temperature.compareTo(temperaturePair.getTemperature());
-        }
+        int compareValue = this.year.compareTo(temperaturePair.getYearMonth());
+
         return compareValue;
     }
 
     public Text getYearMonth() {
-        return yearMonth;
+        return year;
     }
 
     public DoubleWritable getTemperature() {
@@ -59,11 +57,11 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
         return temperature.get();
     }
 
-    public void setYearMonth(String yearMonthStr) {
-        yearMonth.set(yearMonthStr);
+    public void setYear(String yearMonthStr) {
+        year.set(yearMonthStr);
     }
 
-    public void setTemperature(int temp) {
+    public void setTemperature(double temp) {
         temperature.set(temp);
     }
 
@@ -75,14 +73,14 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
         TemperaturePair that = (TemperaturePair) o;
 
         if (temperature != null ? !temperature.equals(that.temperature) : that.temperature != null) return false;
-        if (yearMonth != null ? !yearMonth.equals(that.yearMonth) : that.yearMonth != null) return false;
+        if (year != null ? !year.equals(that.year) : that.year != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = yearMonth != null ? yearMonth.hashCode() : 0;
+        int result = year != null ? year.hashCode() : 0;
         result = 31 * result + (temperature != null ? temperature.hashCode() : 0);
         return result;
     }
@@ -90,7 +88,7 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
     @Override
     public String toString() {
         return "TemperaturePair{" +
-                "yearMonth=" + yearMonth +
+                "year=" + year +
                 ", temperature=" + temperature +
                 '}';
     }

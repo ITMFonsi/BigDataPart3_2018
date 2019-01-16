@@ -15,10 +15,10 @@ public class MedianKeyComparator extends WritableComparator {
         TemperaturePair p1 = (TemperaturePair) a;
         TemperaturePair p2 = (TemperaturePair) b;
 
-        int cmp = p1.compareTo(p2);
-        if (cmp != 0) {
-            return cmp;
+        int compareValue = p1.getYearMonth().compareTo(p2.getYearMonth());
+        if (compareValue == 0) {
+           compareValue = p1.getTemperature().compareTo(p2.getTemperature());
         }
-        return -p1.compareTo(p2);
+        return compareValue;
     }
 }

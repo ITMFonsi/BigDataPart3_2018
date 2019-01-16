@@ -16,6 +16,8 @@ public class MedianTempDriver extends Configured implements Tool {
             JobConf config = new JobConf(getConf(), MedianTempDriver.class);
             config.setOutputKeyClass(Text.class);
             config.setOutputValueClass(DoubleWritable.class);
+            config.setMapOutputKeyClass(TemperaturePair.class);
+            config.setMapOutputValueClass(DoubleWritable.class);
 
             FileInputFormat.addInputPath(config, new Path(strings[0]));
             FileOutputFormat.setOutputPath(config, new Path(strings[1]));
@@ -24,7 +26,8 @@ public class MedianTempDriver extends Configured implements Tool {
             job.setMapperClass(SecSortTempMapper.class);
             job.setReducerClass(MedianTempReducer.class);
             job.setPartitionerClass(MedianTempPartitioner.class);
-            job.setGroupingComparatorClass(MedianGroupComparator.class);
+            //job.setGroupingComparatorClass(MedianGroupComparator.class);
+            job.setSortComparatorClass(MedianKeyComparator.class);
             return job.waitForCompletion(true) ? 0 : 1;
 
         }

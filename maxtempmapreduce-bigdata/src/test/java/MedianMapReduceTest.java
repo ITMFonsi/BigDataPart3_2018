@@ -31,6 +31,8 @@ public class MedianMapReduceTest {
         mapDriver = MapDriver.newMapDriver(mapper);
         reduceDriver = ReduceDriver.newReduceDriver(reducer);
         mapReduceDriver = MapReduceDriver.newMapReduceDriver(mapper, reducer);
+
+
     }
 
     @Test
@@ -39,7 +41,7 @@ public class MedianMapReduceTest {
         for(String line : lines) {
             mapReduceDriver.withInput(new LongWritable(), new Text(line));
         }
-        mapReduceDriver.withOutput(new Text("1901"), new DoubleWritable(-11.0));
+        mapReduceDriver.withOutput(new Text("1901"), new DoubleWritable(-14.0));
         mapReduceDriver.runTest();
     }
 

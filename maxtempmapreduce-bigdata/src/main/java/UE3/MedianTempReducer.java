@@ -1,9 +1,10 @@
 package UE3;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,13 +20,12 @@ public class MedianTempReducer extends Reducer<TemperaturePair, DoubleWritable, 
         }
         int size  = temperatureList.size();
         if(size%2 == 0){
-            int half = size/2;
-            median  = temperatureList.get(half);
+            double sumOfMiddleElements = temperatureList.get(size/2) + temperatureList.get(size/2 -1);
+             median  = sumOfMiddleElements / 2;
         } else {
-            int half = (size + 1) / 2;
-            median = temperatureList.get(half - 1);
+             median = temperatureList.get(size / 2);
         }
 
-        context.write(key.getYearMonth(), new DoubleWritable(median));
+        context.write(new Text(key.getYearMonth()), new DoubleWritable(median));
     }
 }

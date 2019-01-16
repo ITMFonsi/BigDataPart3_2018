@@ -11,7 +11,6 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
     private Text year = new Text();
     private DoubleWritable temperature = new DoubleWritable();
 
-
     public TemperaturePair() {
     }
 
@@ -40,8 +39,10 @@ public class TemperaturePair implements Writable, WritableComparable<Temperature
 
     @Override
     public int compareTo(TemperaturePair temperaturePair) {
-        int compareValue = this.year.compareTo(temperaturePair.getYearMonth());
-
+        int compareValue = this.getYearMonth().compareTo(temperaturePair.getYearMonth());
+        if (compareValue == 0) {
+            compareValue = this.getTemperature().compareTo(temperaturePair.getTemperature());
+        }
         return compareValue;
     }
 

@@ -1,6 +1,7 @@
-package UE3;
+package UE3.Task2;
 
 import UE2.NcdcRecordParser;
+import UE3.TemperaturePair;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;

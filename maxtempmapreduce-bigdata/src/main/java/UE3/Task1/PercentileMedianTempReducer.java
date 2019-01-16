@@ -1,5 +1,6 @@
-package UE3;
+package UE3.Task1;
 
+import UE3.TemperaturePair;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.apache.hadoop.conf.Configuration;

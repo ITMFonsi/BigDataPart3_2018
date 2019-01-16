@@ -1,5 +1,6 @@
-import UE3.MedianTempReducer;
-import UE3.SecSortTempMapper;
+import UE3.Task1.MedianTempReducer;
+import UE3.Task1.SecSortTempMapper;
+import UE3.TemperaturePair;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -20,8 +21,8 @@ import java.util.List;
 public class MedianMapReduceTest {
 
 
-    MapDriver<LongWritable, Text, Text, DoubleWritable> mapDriver;
-    ReduceDriver<Text, DoubleWritable, Text, DoubleWritable> reduceDriver;
+    MapDriver<LongWritable, Text, TemperaturePair, DoubleWritable> mapDriver;
+    ReduceDriver<TemperaturePair, DoubleWritable, Text, DoubleWritable> reduceDriver;
     MapReduceDriver<LongWritable, Text, Text, DoubleWritable, Text, DoubleWritable> mapReduceDriver;
 
     @Before

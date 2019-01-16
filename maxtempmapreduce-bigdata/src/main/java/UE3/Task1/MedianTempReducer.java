@@ -1,7 +1,6 @@
-package UE3;
+package UE3.Task1;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.math3.stat.descriptive.rank.Percentile;
+import UE3.TemperaturePair;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;

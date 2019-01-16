@@ -1,4 +1,8 @@
 package UE3;
+import UE3.Task1.MedianKeyComparator;
+import UE3.Task1.MedianTempPartitioner;
+import UE3.Task1.MedianTempReducer;
+import UE3.Task1.SecSortTempMapper;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
@@ -26,7 +30,6 @@ public class MedianTempDriver extends Configured implements Tool {
             job.setMapperClass(SecSortTempMapper.class);
             job.setReducerClass(MedianTempReducer.class);
             job.setPartitionerClass(MedianTempPartitioner.class);
-            //job.setGroupingComparatorClass(MedianGroupComparator.class);
             job.setSortComparatorClass(MedianKeyComparator.class);
             return job.waitForCompletion(true) ? 0 : 1;
 

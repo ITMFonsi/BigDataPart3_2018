@@ -1,6 +1,4 @@
-MeanTempCombinerDriver.class
-MeanTempDriver.class
-MeanTempReducer.class
-WeatherReducer.class
-WeatherDriver.class
-WeatherMapper.class
+UE3\SortByTempDriver.class
+UE3\SequenceFileDriver.class
+UE3\MedianTempDriver.class
+UE3\Task2_2\SequenceFileWriterMapper.class

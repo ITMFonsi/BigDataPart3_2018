@@ -1,5 +1,6 @@
-package UE3;
+package UE3.Task1;
 
+import UE3.TemperaturePair;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 

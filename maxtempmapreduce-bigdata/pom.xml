@@ -14,7 +14,7 @@
 
     <dependencies>
     <!-- Hadoop main client artifact -->
-        <dependency>
+          <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
             <version>${hadoop.version}</version>

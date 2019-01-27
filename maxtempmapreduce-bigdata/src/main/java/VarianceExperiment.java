@@ -1,4 +1,4 @@
-public class Experiment {
+public class VarianceExperiment {
 
     public static void main(String[] args) {
         double[] values = new double[] {1.0, 1+Math.pow(10, -13), 1+Math.pow(10, -13), 1+Math.pow(10, -13)};

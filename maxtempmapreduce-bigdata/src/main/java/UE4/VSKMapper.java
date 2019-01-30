@@ -16,13 +16,10 @@ public class VSKMapper extends Mapper<LongWritable, Text, AvroKey<String>, AvroV
 
     public NcdcRecordParser parser = new NcdcRecordParser();
     private GenericRecord record = new GenericData.Record(WSchema.INSTANCE.weatherRecordSchema());
-
-    private HashMap<String, LinkedList<Double>> results;
     private ArrayList<Double> valuesTemp;
 
     @Override
     public void setup(Context context) throws IOException, InterruptedException {
-        results = new HashMap<>();
         valuesTemp = new ArrayList<>();
     }
 
@@ -42,6 +39,7 @@ public class VSKMapper extends Mapper<LongWritable, Text, AvroKey<String>, AvroV
         record.put("kurtosis", VSKCalculator.calcKurtosis(valuesTemp));
         context.write(new AvroKey<String>(parser.getYear()), new AvroValue<GenericRecord>(record));
     }
+
 
 
 }

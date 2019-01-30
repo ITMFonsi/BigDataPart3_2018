@@ -1,4 +1,14 @@
+UE4\VSKCalculator.class
+UE4\VSKDriver.class
+UE4\WSchema.class
+VSKSchema.class
 UE3\SortByTempDriver.class
+MedianCalculator.class
+UE4\VSKMapper.class
+UE4\VSKReducer.class
+VarianceExperiment.class
 UE3\SequenceFileDriver.class
 UE3\MedianTempDriver.class
 UE3\Task2_2\SequenceFileWriterMapper.class
+VSKSchema$1.class
+VSKSchema$Builder.class

@@ -1,71 +1,52 @@
 package UE4;
 
 import UE2.NcdcRecordParser;
+import at.fhv.VSKSchema;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.mapred.AvroKey;
+import org.apache.avro.mapred.AvroValue;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math3.stat.descriptive.moment.Skewness;
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
-public class VSKMapper extends Mapper<LongWritable, Text, Text, DoubleWritable>{
+public class VSKMapper extends Mapper<LongWritable, Text, AvroKey<Integer>, AvroValue<GenericRecord>>{
 
     public NcdcRecordParser parser = new NcdcRecordParser();
+    private GenericRecord record = new GenericData.Record(WSchema.INSTANCE.weatherRecordSchema());
+
+    private HashMap<String, LinkedList<Double>> results;
+    private ArrayList<Double> valuesTemp;
 
     @Override
-    protected void map(LongWritable key, Text value, Mapper.Context context) throws IOException, InterruptedException {
+    public void setup(Context context) throws IOException, InterruptedException {
+        results = new HashMap<>();
+        valuesTemp = new ArrayList<>();
+    }
+
+    @Override
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         parser.parse(value);
         if (parser.isValidTemperature()) {
-
+           valuesTemp.add(parser.getAirTemperature());
         }
     }
 
-    public double calcVariance(ArrayList<Double> values) {
-        double var = 0;
-        double sum = 0.0;
-        double sum2 = 0.0;
-
-        for (int i = 0; i < values.size(); i++) {
-            values.set(i, Math.pow(values.get(i), 2));
-        }
-
-        for (int k = 0; k < values.size(); k++) {
-            sum = sum + values.get(k);
-        }
-
-        sum = sum * (1/values.size());
-
-        for (int j = 0; j < values.size(); j++) {
-            sum2 = sum2 + values.get(j);
-        }
-
-        sum2 = sum * (1/values.size());
-        sum2 = Math.pow(sum2, 2);
-
-        var = (sum - sum2);
-
-        return var;
+    @Override
+    public void cleanup(Context context) throws IOException, InterruptedException {
+        record.put("variance", VSKCalculator.calcVariance(valuesTemp));
+        record.put("skewness", VSKCalculator.calcSkewness(valuesTemp));
+        record.put("kurtosis", VSKCalculator.calcKurtosis(valuesTemp));
+        context.write(new AvroKey(parser.getYear()), new AvroValue<>(record));
     }
 
-    public double calcSkewness(ArrayList<Double> values) {
-        Double[] list = values.toArray(new Double[values.size()]);
-        double[] d = ArrayUtils.toPrimitive(list);
 
-        Skewness s = new Skewness();
-
-        return s.evaluate(d, 0, d.length);
-    }
-
-    public double calcKurtosis(ArrayList<Double> values) {
-        Double[] list = values.toArray(new Double[values.size()]);
-        double[] d = ArrayUtils.toPrimitive(list);
-
-        Kurtosis k = new Kurtosis();
-
-        return k.evaluate(d, 0, d.length);
-    }
 }

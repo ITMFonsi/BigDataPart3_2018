@@ -1,3 +1,5 @@
+package UE4;
+
 import UE2.NcdcRecordParser;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.moment.Kurtosis;
@@ -51,10 +53,11 @@ public class VSKCalculator {
         return list;
     }
 
-    protected static List<String> getInputFromFile(String path) {
+    private static List<String> getInputFromFile(String path) {
         List<String> lines = new LinkedList<>();
+
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line;
+            String line = new String();
             while ((line = br.readLine()) != null) {
                 lines.add(line);
             }

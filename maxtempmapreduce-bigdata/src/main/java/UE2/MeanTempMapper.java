@@ -13,6 +13,7 @@ public class MeanTempMapper extends Mapper<LongWritable, Text, Text, DoubleWrita
 
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         parser.parse(value);
+        
         if(parser.isValidTemperature()) {
             context.write(new Text(parser.getYear()), new DoubleWritable(parser.getAirTemperature()));
         } else if(parser.isMalformedTemperature()) {

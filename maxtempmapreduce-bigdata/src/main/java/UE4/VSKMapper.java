@@ -1,16 +1,10 @@
 package UE4;
 
 import UE2.NcdcRecordParser;
-import at.fhv.VSKSchema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.mapred.AvroKey;
 import org.apache.avro.mapred.AvroValue;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.math3.stat.descriptive.moment.Kurtosis;
-import org.apache.commons.math3.stat.descriptive.moment.Skewness;
-import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -18,7 +12,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import java.io.IOException;
 import java.util.*;
 
-public class VSKMapper extends Mapper<LongWritable, Text, AvroKey<Integer>, AvroValue<GenericRecord>>{
+public class VSKMapper extends Mapper<LongWritable, Text, AvroKey<String>, AvroValue<GenericRecord>>{
 
     public NcdcRecordParser parser = new NcdcRecordParser();
     private GenericRecord record = new GenericData.Record(WSchema.INSTANCE.weatherRecordSchema());
@@ -42,10 +36,11 @@ public class VSKMapper extends Mapper<LongWritable, Text, AvroKey<Integer>, Avro
 
     @Override
     public void cleanup(Context context) throws IOException, InterruptedException {
+        record.put("year", parser.getYear());
         record.put("variance", VSKCalculator.calcVariance(valuesTemp));
         record.put("skewness", VSKCalculator.calcSkewness(valuesTemp));
         record.put("kurtosis", VSKCalculator.calcKurtosis(valuesTemp));
-        context.write(new AvroKey(parser.getYear()), new AvroValue<>(record));
+        context.write(new AvroKey<String>(parser.getYear()), new AvroValue<GenericRecord>(record));
     }
 
 
